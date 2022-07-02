@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Weather App</title>
+		<link rel="stylesheet" href="./css/style.css" />
+		<script src="https://kit.fontawesome.com/19e61247fe.js" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<main class="weather-container">
+			<section class="header">
+				<h2>The weather in</h2>
+				<input
+					type="text"
+					name="city"
+					class="city-input"
+					maxlength="25"
+					autocomplete="off"
+				/>
+			</section>
+			<section class="weather-data">
+				<img
+					src="./images/clear.png"
+					alt="clear day with sun"
+					class="weather-icon"
+				/>
+				<div class="temp"></div>
+				<div class="secondary-datas">
+					<div class="secondary-data-icons">
+						<img
+							src="./images/wind.png"
+							alt="wind-icon"
+							class="secondary-data-icon wind-icon"
+						/><img
+							src="./images/rain.png"
+							alt="rain-icon"
+							class="secondary-data-icon rain-icon"
+						/><img
+							src="./images/humidity.png"
+							alt="humidity-icon"
+							class="secondary-data-icon humidity-icon"
+						/>
+					</div>
+					<div class="secondary-data-values">
+						<p class="wind-value"></p>
+						<p class="rain-value"></p>
+						<p class="humidity-value"></p>
+					</div>
+				</div>
+			</section>
+		</main>
+		<footer class="footer">
+			<a class="github-link" href="https://github.com/ismailgunayy/weather-app" target="_blank" >
+				<i class="fa-brands fa-github github-logo"></i>
+			</a>
+		</footer>
+		<script type="module" src="./js/main.js"></script>
+	</body>
+</html>
