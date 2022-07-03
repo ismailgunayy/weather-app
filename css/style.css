@@ -42,6 +42,16 @@ body *::selection {
 	justify-content: space-between;
 	align-items: center;
 	gap: 2em;
+
+	position: relative;
+}
+
+.date {
+	position: absolute;
+	top: 1em;
+	left: 1em;
+	color: gray;
+	font-style: italic;
 }
 
 .header {
@@ -91,8 +101,18 @@ body *::selection {
 
 .temp {
 	max-width: 30%;
-	font-size: 3em;
-	font-weight: medium;
+}
+
+.main-temp {
+	font-size: 4em;
+}
+
+.feel-temp {
+	color: gray;
+	display: flex;
+	justify-content: center;
+	font-size: 1em;
+	gap: 0.23em;
 }
 
 .secondary-datas {
@@ -107,7 +127,7 @@ body *::selection {
 	flex-direction: column;
 	align-items: center;
 	width: 50%;
-	gap: 1.3em;
+	gap: 1.7em;
 }
 
 .secondary-data-icon {
@@ -187,8 +207,12 @@ body *::selection {
 		width: 500px;
 	}
 
-	.temp {
-		font-size: 4em;
+	.main-temp {
+		font-size: 5em;
+	}
+
+	.feel-temp {
+		font-size: 1.2em;
 	}
 
 	.secondary-data-icon {

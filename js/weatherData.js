@@ -6,12 +6,11 @@ async function getWeatherData({ latitude, longitude }, unit = 'metric') {
 
 	const response = await fetch(API_URL);
 	const weatherData = response.json();
-	weatherData.date = new Date();
 	return weatherData;
 }
 
-function isWeatherDataFetchedLongerThan30mAgo({ dt: weatherDataDate }) {
-	return Math.floor(new Date() / 1000) - weatherDataDate > 30 * 60;
+function isWeatherDataFetchedLongerThan1hAgo({ dt: weatherDataDate }) {
+	return Math.floor(new Date() / 1000) - weatherDataDate > 60 * 60;
 }
 
-export { getWeatherData, isWeatherDataFetchedLongerThan30mAgo };
+export { getWeatherData, isWeatherDataFetchedLongerThan1hAgo };
