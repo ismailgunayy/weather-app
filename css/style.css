@@ -189,7 +189,7 @@ body *::selection {
 }
 
 .github-logo:hover {
-	color: gray;
+	color: black;
 	transform: scale(1.2);
 }
 
