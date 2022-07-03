@@ -4,31 +4,61 @@ import {
 	isWeatherDataFetchedLongerThan30mAgo,
 } from './weatherData.js';
 
+const inputElement = document.querySelector('.city-input');
+const temperatureElement = document.querySelector('.temp');
+const windElement = document.querySelector('.wind-value');
+const rainElement = document.querySelector('.rain-value');
+const humidityElement = document.querySelector('.humidity-value');
+const unitSelectionElements = document.querySelectorAll('.unit');
+
+let activeUnitSelection = 'metric';
+let weatherData
 // fetching the weather report according to the location (GeolocationAPI)
 const locationData = await getAddress();
-let weatherData = JSON.parse(localStorage.getItem('weatherData'));
+weatherData = JSON.parse(localStorage.getItem(`weatherData_${activeUnitSelection}`));
 
 if (weatherData === null || isWeatherDataFetchedLongerThan30mAgo(weatherData)) {
-	weatherData = await getWeatherData(locationData);
-	localStorage.setItem('weatherData', JSON.stringify(weatherData));
+	weatherData = await getWeatherData(locationData, activeUnitSelection);
+	localStorage.setItem(`weatherData_${activeUnitSelection}`, JSON.stringify(weatherData));
 }
 
-console.log('🚀 ~ weatherData', weatherData);
+// console.log('🚀 ~ weatherData', weatherData);
 
-const input = document.querySelector('.city-input');
-const temp = document.querySelector('.temp');
-const wind = document.querySelector('.wind-value');
-const rain = document.querySelector('.rain-value');
-const humidity = document.querySelector('.humidity-value');
+// Setting the values
+function setUIValues() {
+	inputElement.value = weatherData.name;
+	temperatureElement.innerHTML =
+		Math.floor(weatherData.main.temp) +
+		(activeUnitSelection === 'metric' ? '℃' : '°F');
+	windElement.innerHTML = weatherData.wind.speed;
+	rainElement.innerHTML = weatherData.rain ? weatherData.rain['1h'] : 0;
+	humidityElement.innerHTML = weatherData.main.humidity;
+}
 
-input.value = weatherData.name;
-temp.innerHTML = Math.floor(weatherData.main.temp) + '℃';
-wind.innerHTML = weatherData.wind.speed;
-rain.innerHTML = weatherData.rain ? weatherData.rain['1h'] : 0;
-humidity.innerHTML = weatherData.main.humidity;
 
-input.addEventListener('input', resizeInputBox);
+// Change the input size according to city name
+inputElement.addEventListener('input', resizeInputBox);
 function resizeInputBox() {
-	input.style.width = input.value.length * 16 + 'px';
+	inputElement.style.width = inputElement.value.length / 1.5 + 'em';
 }
-resizeInputBox();
+
+// Change the units according to activeUnitSelection
+unitSelectionElements.forEach((element) => {
+	const innerText = element.textContent.toLowerCase();
+	element.addEventListener('click', async function (event) {
+		if (activeUnitSelection !== innerText) {
+			activeUnitSelection = innerText;
+			weatherData = await getWeatherData(locationData, activeUnitSelection);
+			localStorage.setItem(
+				`weatherData_${activeUnitSelection}`,
+				JSON.stringify(weatherData)
+			);
+
+			setUIValues();
+		}
+	});
+});
+
+
+setUIValues()
+resizeInputBox()
