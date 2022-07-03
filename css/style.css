@@ -18,7 +18,8 @@ body {
 	font-family: 'Dosis', sans-serif;
 	background-color: #b8c6db;
 	background-image: linear-gradient(-45deg, #b8c6db 0%, #f5f7fa 100%);
-	min-height: 100vh;
+	height: 100vh;
+	width: 100vw;
 
 	display: flex;
 	flex-direction: column;
@@ -33,9 +34,9 @@ body *::selection {
 .weather-container {
 	background-image: linear-gradient(-45deg, #cdaee6 0%, #ffd8cb 125%);
 	border-radius: 2%;
-	width: 450px;
-	min-height: 50vh;
-	padding: 60px 50px 20px;
+	width: 350px;
+	min-height: 40vh;
+	padding: 4em 3em 2em;
 
 	display: flex;
 	flex-direction: column;
@@ -60,7 +61,7 @@ body *::selection {
 	justify-content: center;
 	flex-wrap: wrap;
 	gap: 0.5rem;
-	width: 375px;
+	width: 350px;
 }
 
 .header * {
@@ -91,8 +92,8 @@ body *::selection {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	gap: 2em;
-	width: 375px;
+	gap: 1.5em;
+	width: 325px;
 }
 
 .weather-icon {
@@ -104,7 +105,7 @@ body *::selection {
 }
 
 .main-temp {
-	font-size: 4em;
+	font-size: 3.5em;
 }
 
 .feel-temp {
@@ -175,7 +176,7 @@ body *::selection {
 }
 
 .footer {
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	width: 100%;
 	padding: 10px;
@@ -204,7 +205,7 @@ body *::selection {
 	}
 
 	.weather-data {
-		width: 500px;
+		width: 550px;
 	}
 
 	.main-temp {
@@ -220,7 +221,7 @@ body *::selection {
 	}
 
 	.secondary-data-values {
-		font-size: 1.9em;
+		font-size: 2.2em;
 	}
 
 	.unit-selection {
