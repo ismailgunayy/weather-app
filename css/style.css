@@ -156,10 +156,9 @@ body *::selection {
 
 .unit-selection > .active {
 	border-bottom: 1px solid gray;
-
 }
 
-.unit-selection > *:hover	 {
+.unit-selection > *:hover {
 	cursor: pointer;
 	color: black;
 	transition: color 0.23s;

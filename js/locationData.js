@@ -3,7 +3,7 @@ const geoLocationOptions = {
 	timeout: 5000,
 };
 
-async function getAddress() {
+async function getLocation() {
 	const position = await getCoordinates();
 
 	const locationData = {};
@@ -22,4 +22,4 @@ function getCoordinates() {
 	});
 }
 
-export default getAddress;
+export default getLocation;

@@ -1,8 +1,12 @@
-import getAddress from './locationData.js';
+import getLocation from './locationData.js';
 import {
 	getWeatherData,
-	isWeatherDataFetchedLongerThan1hAgo,
+	isWeatherDataFetchedAtLeast1hAgo,
 } from './weatherData.js';
+
+let activeUnitSelection = 'metric';
+let weatherData;
+const locationData = await getLocation();
 
 const dateElement = document.querySelector('.date');
 const inputElement = document.querySelector('.city-input');
@@ -14,24 +18,12 @@ const humidityElement = document.querySelector('.humidity-value');
 const unitSelectionElements = document.querySelectorAll('.unit');
 
 inputElement.addEventListener('input', resizeInputBox);
-
-let activeUnitSelection = 'metric';
-let weatherData;
-const locationData = await getAddress();
-
-weatherData = JSON.parse(
-	localStorage.getItem(`weatherData_${activeUnitSelection}`)
-);
-
-// fetches the data if there is no data in localStorage
-// or the last fetched data is at least 1h long
-if (weatherData === null || isWeatherDataFetchedLongerThan1hAgo(weatherData)) {
-	await setWeatherData();
-}
-
+unitSelectionElements.forEach(function (element) {
+	element.addEventListener('click', restyleUnitSelections);
+});
 
 // Change the units according to activeUnitSelection
-unitSelectionElements.forEach((element) => {
+unitSelectionElements.forEach(function (element) {
 	const innerText = element.textContent.toLowerCase();
 	element.addEventListener('click', async function (event) {
 		if (activeUnitSelection !== innerText) {
@@ -43,15 +35,19 @@ unitSelectionElements.forEach((element) => {
 });
 
 async function setWeatherData() {
-	weatherData = await getWeatherData(locationData, activeUnitSelection);
-	weatherData.date = new Date().toLocaleDateString('en-US', {
-		month: 'long',
-		day: 'numeric',
-	});
-	localStorage.setItem(
-		`weatherData_${activeUnitSelection}`,
-		JSON.stringify(weatherData)
+	weatherData = JSON.parse(
+		localStorage.getItem(`weatherData_${activeUnitSelection}`)
 	);
+
+	// makes request to the API if there is no data in localStorage
+	// or the last fetched data came at least 1 hour ago
+	if (weatherData === null || isWeatherDataFetchedAtLeast1hAgo(weatherData)) {
+		weatherData = await getWeatherData(locationData, activeUnitSelection);
+		localStorage.setItem(
+			`weatherData_${activeUnitSelection}`,
+			JSON.stringify(weatherData)
+		);
+	}
 }
 
 // Setting the values in UI
@@ -65,16 +61,25 @@ function setUIValues() {
 	feelTemperatureElement.innerHTML =
 		'<span>feels like</span>' +
 		`<span>${Math.floor(weatherData.main.feels_like)}</span>`;
-	windElement.innerHTML = weatherData.wind.speed;
+
+	windElement.innerHTML = Math.floor(weatherData.wind.speed);
 	rainElement.innerHTML = weatherData.rain ? weatherData.rain['1h'] : 0;
 	humidityElement.innerHTML = weatherData.main.humidity;
 }
 
-
 // Change the input size according to city name
-function resizeInputBox() {
+function resizeInputBox(event) {
 	inputElement.style.width = inputElement.value.length / 1.5 + 'em';
 }
 
+function restyleUnitSelections(event) {
+	unitSelectionElements.forEach(function (element) {
+		if (!activeUnitSelection.includes(event.target.textContent.toLowerCase())) {
+			element.classList.toggle('active');
+		}
+	});
+}
+
+await setWeatherData();
 setUIValues();
 resizeInputBox();
